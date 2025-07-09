@@ -1,0 +1,199 @@
+"use client"
+
+import { useState, useEffect } from "react"
+import Link from "next/link"
+import { Button } from "@/components/ui/button"
+import { Card, CardContent } from "@/components/ui/card"
+import { Compass, Gem, Users, Zap, ArrowRight, Circle, Instagram } from "lucide-react"
+import { JewelerWaitlistPopup } from "@/components/jeweler-waitlist-popup"
+
+export default function HomePage() {
+  const [showWaitlistPopup, setShowWaitlistPopup] = useState(false)
+
+  useEffect(() => {
+    // Show popup after 3 seconds
+    const timer = setTimeout(() => {
+      setShowWaitlistPopup(true)
+    }, 3000)
+
+    return () => clearTimeout(timer)
+  }, [])
+
+  return (
+    <div className="min-h-screen bg-white text-gray-900">
+      {/* Waitlist Popup */}
+      <JewelerWaitlistPopup isOpen={showWaitlistPopup} onClose={() => setShowWaitlistPopup(false)} />
+
+      {/* Header */}
+      <header className="border-b border-gray-200 bg-white fixed w-full z-40">
+        <div className="container mx-auto px-6 py-6 flex items-center justify-between">
+          <div className="flex items-center space-x-3">
+            <Circle className="w-8 h-8 text-gray-900" strokeWidth={1} />
+            <span className="text-2xl font-light tracking-[0.2em] text-gray-900">AUR</span>
+          </div>
+          <a
+            href="https://instagram.com"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-gray-600 hover:text-gray-900 transition-colors"
+          >
+            <Instagram className="w-6 h-6" strokeWidth={1} />
+          </a>
+        </div>
+      </header>
+
+      {/* Hero Section */}
+      <section className="pt-32 pb-20 px-6">
+        <div className="container mx-auto">
+          <h1 className="text-6xl md:text-8xl font-extralight text-gray-900 mb-8 tracking-tight leading-none">
+            Crafting unique
+            <span className="block font-light">membership</span>
+            <span className="block">wearables</span>
+          </h1>
+
+          <p className="text-xl text-gray-600 mb-12 max-w-3xl font-light leading-relaxed">
+            Bespoke pieces by leading designers that have the power to enhance our collective memory and bridge physical and
+            digital worlds
+          </p>
+
+          <div className="flex flex-col sm:flex-row gap-6">
+            <Button size="lg" className="bg-gray-900 hover:bg-gray-800 text-white font-light tracking-wide px-8">
+              <Link href="/collections" className="flex items-center">
+                Find a local artist
+                <ArrowRight className="w-4 h-4 ml-2" />
+              </Link>
+            </Button>
+            <Button
+              size="lg"
+              variant="outline"
+              className="text-gray-900 hover:bg-gray-50 border-gray-300 font-light tracking-wide px-8 bg-transparent"
+            >
+              <Link href="/collections">Browse Collections</Link>
+            </Button>
+          </div>
+        </div>
+      </section>
+
+      {/* Features Section */}
+      <section className="py-20 px-6 bg-gray-50">
+        <div className="container mx-auto">
+          <div className="text-center mb-16">
+            <h2 className="text-4xl font-light text-gray-900 mb-6 tracking-wide">The Creative Process</h2>
+            <p className="text-gray-600 max-w-2xl mx-auto font-light leading-relaxed">
+              Connecting crafters and communities to create meaningful jewelry that bridges physical and digital worlds.
+            </p>
+          </div>
+
+          <div className="grid md:grid-cols-3 gap-12">
+            <Card className="bg-white border-gray-200 hover:shadow-lg transition-all duration-500">
+              <CardContent className="p-8 text-center">
+                <Compass className="w-12 h-12 text-gray-900 mx-auto mb-6" strokeWidth={1} />
+                <h3 className="text-xl font-light text-gray-900 mb-4 tracking-wide">Crafter Expertise</h3>
+                <p className="text-gray-600 font-light leading-relaxed">
+                  Master craftspeople bring their expertise to each creation, combining traditional techniques with
+                  modern technology.
+                </p>
+              </CardContent>
+            </Card>
+
+            <Card className="bg-white border-gray-200 hover:shadow-lg transition-all duration-500">
+              <CardContent className="p-8 text-center">
+                <Users className="w-12 h-12 text-gray-900 mx-auto mb-6" strokeWidth={1} />
+                <h3 className="text-xl font-light text-gray-900 mb-4 tracking-wide">Community Input</h3>
+                <p className="text-gray-600 font-light leading-relaxed">
+                  Communities collaborate around shared aesthetics and values, co-creating collections that reflect
+                  their vision.
+                </p>
+              </CardContent>
+            </Card>
+
+            <Card className="bg-white border-gray-200 hover:shadow-lg transition-all duration-500">
+              <CardContent className="p-8 text-center">
+                <Zap className="w-12 h-12 text-gray-900 mx-auto mb-6" strokeWidth={1} />
+                <h3 className="text-xl font-light text-gray-900 mb-4 tracking-wide">Smart Technology</h3>
+                <p className="text-gray-600 font-light leading-relaxed">
+                  NFC technology bridges physical and digital realms, allowing each piece to carry its story and connect
+                  with others.
+                </p>
+              </CardContent>
+            </Card>
+          </div>
+        </div>
+      </section>
+
+      {/* Featured Work */}
+      <section className="py-20 px-6 bg-gray-50">
+        <div className="container mx-auto">
+          <div className="text-center mb-16">
+            <h2 className="text-4xl font-light text-gray-900 mb-6 tracking-wide">Featured Pieces</h2>
+            <p className="text-gray-600 max-w-2xl mx-auto font-light leading-relaxed">
+              Discover unique designs that showcase the collaboration between crafters and communities.
+            </p>
+          </div>
+
+          <div className="grid md:grid-cols-3 gap-8">
+            {[
+              { name: "Fibonacci Spiral", artist: "Geometric Collection" },
+              { name: "Quantum Ring", artist: "Tech Collective" },
+              { name: "Organic Flow", artist: "Nature Network" },
+            ].map((piece, index) => (
+              <Card key={index} className="bg-white border-gray-200 hover:shadow-lg transition-all duration-300 group">
+                <CardContent className="p-0">
+                  <div className="h-64 bg-gray-100 relative overflow-hidden">
+                    <div className="absolute inset-0 flex items-center justify-center">
+                      <Gem
+                        className="w-16 h-16 text-gray-400 group-hover:text-gray-600 transition-colors"
+                        strokeWidth={1}
+                      />
+                    </div>
+                    <div className="absolute top-4 right-4">
+                      <span className="bg-white text-gray-900 px-2 py-1 rounded text-xs font-light border border-gray-200">
+                        NFC
+                      </span>
+                    </div>
+                  </div>
+                  <div className="p-6">
+                    <h3 className="text-gray-900 font-light mb-2 tracking-wide">{piece.name}</h3>
+                    <p className="text-gray-600 text-sm font-light mb-4">by {piece.artist}</p>
+                    <Button size="sm" variant="ghost" className="text-gray-900 hover:bg-gray-50 font-light">
+                      View Details
+                    </Button>
+                  </div>
+                </CardContent>
+              </Card>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Call to Action */}
+      <section className="py-20 px-6">
+        <div className="container mx-auto text-center">
+          <h2 className="text-5xl font-light text-gray-900 mb-8 tracking-wide">
+            Ready to
+            <span className="block font-light">Get Started?</span>
+          </h2>
+          <p className="text-xl text-gray-600 mb-12 max-w-2xl mx-auto font-light leading-relaxed">
+            Join our community of crafters and enthusiasts creating the future of connected jewelry.
+          </p>
+          <Button size="lg" className="bg-gray-900 hover:bg-gray-800 text-white font-light tracking-wide px-12 py-4">
+            <Link href="/signup">Join AUR</Link>
+          </Button>
+        </div>
+      </section>
+
+      {/* Footer */}
+      <footer className="border-t border-gray-200 bg-white py-12 px-6">
+        <div className="container mx-auto text-center">
+          <div className="flex items-center justify-center space-x-3 mb-6">
+            <Circle className="w-6 h-6 text-gray-900" strokeWidth={1} />
+            <span className="text-xl font-light tracking-[0.2em] text-gray-900">AUR</span>
+          </div>
+          <p className="text-gray-600 font-light tracking-wide">
+            Distributed Cyborg Jeweler • Where Craft Meets Community
+          </p>
+        </div>
+      </footer>
+    </div>
+  )
+}
