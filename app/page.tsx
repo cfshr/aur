@@ -13,7 +13,6 @@ export default function HomePage() {
   useEffect(() => {
     // Show popup after 3 seconds
     const timer = setTimeout(() => {
-      console.log("Attempting to show waitlist popup") // Debug log
       setShowWaitlistPopup(true)
     }, 3000)
 
@@ -22,14 +21,6 @@ export default function HomePage() {
 
   return (
     <div className="min-h-screen bg-white text-gray-900">
-      {/* Temporary test button - remove after testing */}
-      <button
-        onClick={() => setShowWaitlistPopup(true)}
-        className="fixed bottom-20 left-6 z-50 bg-red-500 text-white px-4 py-2 rounded text-xs"
-      >
-        Test Popup
-      </button>
-
       {/* Waitlist Popup */}
       <JewelerWaitlistPopup isOpen={showWaitlistPopup} onClose={() => setShowWaitlistPopup(false)} />
 
@@ -52,21 +43,29 @@ export default function HomePage() {
       </header>
 
       {/* Hero Section */}
-      <section className="pt-32 pb-20 px-6">
-        <div className="container mx-auto">
-          <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-8xl font-extralight text-gray-900 mb-8 tracking-tight leading-tight">
+      <section className="relative pt-32 pb-20 px-6 min-h-screen flex items-center overflow-hidden">
+        {/* Background Video */}
+        <video autoPlay loop muted playsInline className="absolute inset-0 w-full h-full object-cover">
+          <source src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/Oct_06__1847_4s_202510061922_2oji9-Ygy8NXp18Wqwb1iQEVKhlbOg8RRW95.mp4" type="video/mp4" />
+        </video>
+
+        {/* Dark overlay for better text readability */}
+        <div className="absolute inset-0 bg-black/40" />
+
+        <div className="container mx-auto relative z-10">
+          <h1 className="text-6xl sm:text-7xl md:text-8xl lg:text-9xl font-extralight text-white mb-8 tracking-tight leading-tight drop-shadow-lg">
             Crafting unique
-            <span className="block font-light mt-2 sm:mt-3 md:mt-4">membership</span>
-            <span className="block mt-2 sm:mt-3 md:mt-4">wearables</span>
+            <span className="block font-light mt-4 sm:mt-6 md:mt-8">membership</span>
+            <span className="block mt-4 sm:mt-6 md:mt-8">wearables</span>
           </h1>
 
-          <p className="text-xl text-gray-600 mb-12 max-w-3xl font-light leading-relaxed">
+          <p className="text-xl text-white mb-12 max-w-3xl font-light leading-relaxed drop-shadow-md">
             Bespoke pieces by leading designers that have the power to enhance our collective memory and bridge physical
             and digital worlds
           </p>
 
           <div className="flex flex-col sm:flex-row gap-6">
-            <Button size="lg" className="bg-gray-900 hover:bg-gray-800 text-white font-light tracking-wide px-8">
+            <Button size="lg" className="bg-white hover:bg-gray-100 text-gray-900 font-light tracking-wide px-8">
               <Link href="/collections" className="flex items-center">
                 Find a local artist
                 <ArrowRight className="w-4 h-4 ml-2" />
@@ -75,7 +74,7 @@ export default function HomePage() {
             <Button
               size="lg"
               variant="outline"
-              className="text-gray-900 hover:bg-gray-50 border-gray-300 font-light tracking-wide px-8 bg-transparent"
+              className="text-white hover:bg-white/10 border-white font-light tracking-wide px-8 bg-transparent"
             >
               <Link href="/collections">Browse Collections</Link>
             </Button>
