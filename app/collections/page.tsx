@@ -1,9 +1,16 @@
+"use client"
+
+import { useState } from "react"
 import Link from "next/link"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader } from "@/components/ui/card"
-import { ArrowLeft, Users, Compass, Moon, Sun, Leaf, Zap, Circle } from "lucide-react"
+import { ArrowLeft, Users, Compass, Moon, Sun, Leaf, Zap, Circle, Instagram } from "lucide-react"
+import { CollectionSignupPopup } from "@/components/collection-signup-popup"
 
 export default function CollectionsPage() {
+  const [showSignupPopup, setShowSignupPopup] = useState(false)
+  const [selectedCollection, setSelectedCollection] = useState("")
+
   const collections = [
     {
       name: "The Geometrists",
@@ -24,7 +31,7 @@ export default function CollectionsPage() {
       featured: true,
     },
     {
-      name: "Solar Artisans",
+      name: "Solar Crafters",
       description: "Bold, warm designs that make a statement",
       members: 203,
       artisans: 15,
@@ -33,7 +40,7 @@ export default function CollectionsPage() {
       featured: false,
     },
     {
-      name: "Organic Network",
+      name: "Synaptic Ornaments",
       description: "Nature-inspired patterns with sustainable materials",
       members: 134,
       artisans: 9,
@@ -42,7 +49,7 @@ export default function CollectionsPage() {
       featured: true,
     },
     {
-      name: "Tech Collective",
+      name: "Cyborg Jeweller",
       description: "Cutting-edge designs for the digitally connected",
       members: 67,
       artisans: 5,
@@ -52,8 +59,20 @@ export default function CollectionsPage() {
     },
   ]
 
+  const handleJoinCollection = (collectionName: string) => {
+    setSelectedCollection(collectionName)
+    setShowSignupPopup(true)
+  }
+
   return (
     <div className="min-h-screen bg-white text-gray-900">
+      {/* Signup Popup */}
+      <CollectionSignupPopup
+        isOpen={showSignupPopup}
+        onClose={() => setShowSignupPopup(false)}
+        collectionName={selectedCollection}
+      />
+
       {/* Header */}
       <header className="border-b border-gray-200 bg-white">
         <div className="container mx-auto px-6 py-6 flex items-center justify-between">
@@ -69,9 +88,19 @@ export default function CollectionsPage() {
               <span className="text-xl font-light tracking-wide text-gray-900">Collections</span>
             </div>
           </div>
-          <Button className="bg-gray-900 hover:bg-gray-800 text-white font-light tracking-wide">
-            Create Collection
-          </Button>
+          <div className="flex items-center space-x-4">
+            <Button className="bg-gray-900 hover:bg-gray-800 text-white font-light tracking-wide">
+              Create Collection
+            </Button>
+            <a
+              href="https://instagram.com"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-gray-600 hover:text-gray-900 transition-colors"
+            >
+              <Instagram className="w-6 h-6" strokeWidth={1} />
+            </a>
+          </div>
         </div>
       </header>
 
@@ -80,7 +109,7 @@ export default function CollectionsPage() {
         <div className="text-center mb-16">
           <h1 className="text-5xl font-light text-gray-900 mb-6 tracking-wide">Design Collections</h1>
           <p className="text-xl text-gray-600 max-w-3xl mx-auto font-light leading-relaxed">
-            Each collection represents a unique design philosophy, bringing together artisans and community members
+            Each collection represents a unique design philosophy, bringing together crafters and community members
             around shared aesthetics and collaborative creation.
           </p>
         </div>
@@ -118,11 +147,14 @@ export default function CollectionsPage() {
                     </div>
                     <div>
                       <div className="text-2xl font-light text-gray-900">{collection.artisans}</div>
-                      <div className="text-xs text-gray-600 tracking-wide">Artisans</div>
+                      <div className="text-xs text-gray-600 tracking-wide">Crafters</div>
                     </div>
                   </div>
 
-                  <Button className="w-full bg-gray-900 hover:bg-gray-800 text-white font-light tracking-wide">
+                  <Button
+                    onClick={() => handleJoinCollection(collection.name)}
+                    className="w-full bg-gray-900 hover:bg-gray-800 text-white font-light tracking-wide"
+                  >
                     Join Collection
                   </Button>
                 </CardContent>
@@ -140,7 +172,7 @@ export default function CollectionsPage() {
               </div>
               <h3 className="text-2xl font-light text-gray-900 mb-4 tracking-wide">Create Your Collection</h3>
               <p className="text-gray-600 mb-8 font-light leading-relaxed">
-                Start a new design collection and invite artisans and community members to collaborate on unique
+                Start a new design collection and invite crafters and community members to collaborate on unique
                 NFC-enabled jewelry pieces.
               </p>
               <Button size="lg" className="bg-gray-900 hover:bg-gray-800 text-white font-light tracking-wide px-8">

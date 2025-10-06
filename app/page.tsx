@@ -13,6 +13,7 @@ export default function HomePage() {
   useEffect(() => {
     // Show popup after 3 seconds
     const timer = setTimeout(() => {
+      console.log("Attempting to show waitlist popup") // Debug log
       setShowWaitlistPopup(true)
     }, 3000)
 
@@ -21,6 +22,14 @@ export default function HomePage() {
 
   return (
     <div className="min-h-screen bg-white text-gray-900">
+      {/* Temporary test button - remove after testing */}
+      <button
+        onClick={() => setShowWaitlistPopup(true)}
+        className="fixed bottom-20 left-6 z-50 bg-red-500 text-white px-4 py-2 rounded text-xs"
+      >
+        Test Popup
+      </button>
+
       {/* Waitlist Popup */}
       <JewelerWaitlistPopup isOpen={showWaitlistPopup} onClose={() => setShowWaitlistPopup(false)} />
 
@@ -45,15 +54,15 @@ export default function HomePage() {
       {/* Hero Section */}
       <section className="pt-32 pb-20 px-6">
         <div className="container mx-auto">
-          <h1 className="text-6xl md:text-8xl font-extralight text-gray-900 mb-8 tracking-tight leading-none">
+          <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-8xl font-extralight text-gray-900 mb-8 tracking-tight leading-tight">
             Crafting unique
-            <span className="block font-light">membership</span>
-            <span className="block">wearables</span>
+            <span className="block font-light mt-2 sm:mt-3 md:mt-4">membership</span>
+            <span className="block mt-2 sm:mt-3 md:mt-4">wearables</span>
           </h1>
 
           <p className="text-xl text-gray-600 mb-12 max-w-3xl font-light leading-relaxed">
-            Bespoke pieces by leading designers that have the power to enhance our collective memory and bridge physical and
-            digital worlds
+            Bespoke pieces by leading designers that have the power to enhance our collective memory and bridge physical
+            and digital worlds
           </p>
 
           <div className="flex flex-col sm:flex-row gap-6">

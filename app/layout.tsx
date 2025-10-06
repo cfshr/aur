@@ -29,7 +29,7 @@ export const metadata: Metadata = {
       "Bespoke pieces by leading designers that have the power to enhance our collective memory and bridge physical and digital worlds",
     images: ["/images/aur-thumbnail.png"],
   },
-    generator: 'v0.dev'
+    generator: 'v0.app'
 }
 
 export default function RootLayout({

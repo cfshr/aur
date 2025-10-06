@@ -2,7 +2,7 @@
 
 import type React from "react"
 
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { X } from "lucide-react"
@@ -16,6 +16,21 @@ export function JewelerWaitlistPopup({ isOpen, onClose }: JewelerWaitlistPopupPr
   const [email, setEmail] = useState("")
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [isSubmitted, setIsSubmitted] = useState(false)
+  const [hasScrolled, setHasScrolled] = useState(false)
+
+  useEffect(() => {
+    const handleScroll = () => {
+      if (window.scrollY > 50) {
+        setHasScrolled(true)
+      }
+    }
+
+    window.addEventListener("scroll", handleScroll)
+
+    return () => {
+      window.removeEventListener("scroll", handleScroll)
+    }
+  }, [])
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
@@ -33,7 +48,7 @@ export function JewelerWaitlistPopup({ isOpen, onClose }: JewelerWaitlistPopupPr
       // Simulate API call
       await new Promise((resolve) => setTimeout(resolve, 1000))
 
-      console.log("Email submitted to waitlist:", email)
+      console.log("Designer email submitted to waitlist:", email)
       setIsSubmitted(true)
 
       // Auto-close after success
@@ -49,11 +64,11 @@ export function JewelerWaitlistPopup({ isOpen, onClose }: JewelerWaitlistPopupPr
     }
   }
 
-  if (!isOpen) return null
+  if (!isOpen || !hasScrolled) return null
 
   return (
-    <div className="fixed bottom-6 right-6 z-50">
-      <div className="bg-white border border-gray-200 rounded-lg shadow-lg p-4 max-w-sm">
+    <div className="fixed bottom-4 right-4 left-4 sm:left-auto sm:bottom-6 sm:right-6 z-50 max-w-sm mx-auto sm:mx-0">
+      <div className="bg-white border border-gray-200 rounded-lg shadow-lg p-4 animate-in slide-in-from-bottom-4 duration-500">
         <button
           onClick={onClose}
           className="absolute right-2 top-2 text-gray-400 hover:text-gray-600 transition-colors"
@@ -64,7 +79,8 @@ export function JewelerWaitlistPopup({ isOpen, onClose }: JewelerWaitlistPopupPr
         {!isSubmitted ? (
           <div>
             <p className="text-gray-900 text-sm font-light mb-3 pr-4">
-              Are you a jeweler who wants to make pieces for collectives?
+              Are you a designer who wants to make unique pieces for collectives? Send us your email and we'll message
+              you when we go live.
             </p>
 
             <form onSubmit={handleSubmit} className="flex gap-2">
