@@ -4,7 +4,7 @@ import { useState, useEffect } from "react"
 import Link from "next/link"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
-import { Compass, Gem, Users, Zap, ArrowRight, Circle, Instagram } from "lucide-react"
+import { Compass, Users, Zap, ArrowRight, Circle, Instagram } from "lucide-react"
 import { JewelerWaitlistPopup } from "@/components/jeweler-waitlist-popup"
 
 export default function HomePage() {
@@ -141,19 +141,38 @@ export default function HomePage() {
 
           <div className="grid md:grid-cols-3 gap-8">
             {[
-              { name: "Fibonacci Spiral", artist: "Geometric Collection" },
-              { name: "Quantum Ring", artist: "Tech Collective" },
-              { name: "Organic Flow", artist: "Nature Network" },
+              {
+                name: "Cybohr",
+                artist: "Geometric Collection",
+                defaultImage: "/images/cybohr-default.png",
+                hoverImage: "/images/cybohr-hover.png",
+              },
+              {
+                name: "Quantum Ring",
+                artist: "Tech Collective",
+                defaultImage: "/images/ring-default.png",
+                hoverImage: "/images/ring-hover.png",
+              },
+              {
+                name: "Organic Flow",
+                artist: "Nature Network",
+                defaultImage: "/images/pendant-default.png",
+                hoverImage: "/images/pendant-hover.png",
+              },
             ].map((piece, index) => (
               <Card key={index} className="bg-white border-gray-200 hover:shadow-lg transition-all duration-300 group">
                 <CardContent className="p-0">
                   <div className="h-64 bg-gray-100 relative overflow-hidden">
-                    <div className="absolute inset-0 flex items-center justify-center">
-                      <Gem
-                        className="w-16 h-16 text-gray-400 group-hover:text-gray-600 transition-colors"
-                        strokeWidth={1}
-                      />
-                    </div>
+                    <img
+                      src={piece.defaultImage || "/placeholder.svg"}
+                      alt={piece.name}
+                      className="absolute inset-0 w-full h-full object-cover transition-opacity duration-300 group-hover:opacity-0"
+                    />
+                    <img
+                      src={piece.hoverImage || "/placeholder.svg"}
+                      alt={`${piece.name} alternate view`}
+                      className="absolute inset-0 w-full h-full object-cover transition-opacity duration-300 opacity-0 group-hover:opacity-100"
+                    />
                     <div className="absolute top-4 right-4">
                       <span className="bg-white text-gray-900 px-2 py-1 rounded text-xs font-light border border-gray-200">
                         NFC
