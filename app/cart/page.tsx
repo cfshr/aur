@@ -150,16 +150,6 @@ export default function CartPage() {
                               <Plus className="w-3 h-3" />
                             </Button>
                           </div>
-
-                          {/* Price */}
-                          <div className="text-right">
-                            <p className="text-lg font-light text-foreground">
-                              €{(item.price * item.quantity).toFixed(2)}
-                            </p>
-                            {item.quantity > 1 && (
-                              <p className="text-xs text-muted-foreground">€{item.price.toFixed(2)} each</p>
-                            )}
-                          </div>
                         </div>
                       </div>
                     </div>
@@ -177,31 +167,22 @@ export default function CartPage() {
                 <CardContent className="space-y-4">
                   <div className="space-y-2">
                     <div className="flex justify-between text-muted-foreground font-light">
-                      <span>Subtotal ({getTotalItems()} items)</span>
-                      <span>€{getTotalPrice().toFixed(2)}</span>
+                      <span>Items in cart</span>
+                      <span>{getTotalItems()}</span>
                     </div>
                     <div className="flex justify-between text-muted-foreground font-light">
                       <span>Shipping</span>
                       <span className="text-foreground">Free</span>
                     </div>
-                    <div className="flex justify-between text-muted-foreground font-light">
-                      <span>Tax</span>
-                      <span>Calculated at checkout</span>
-                    </div>
                   </div>
 
                   <div className="border-t border-border pt-4">
-                    <div className="flex justify-between text-foreground text-xl font-light mb-6">
-                      <span>Total</span>
-                      <span>€{getTotalPrice().toFixed(2)}</span>
-                    </div>
-
                     <Button
                       onClick={handleCheckout}
                       size="lg"
-                      className="w-full bg-primary hover:bg-primary/90 text-primary-foreground font-light tracking-wide"
+                      className="w-full bg-primary hover:bg-primary/90 text-primary-foreground font-light tracking-wide mb-6"
                     >
-                      Proceed to Checkout
+                      Request Quote
                     </Button>
                   </div>
 

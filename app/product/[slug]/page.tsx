@@ -1,6 +1,6 @@
 "use client"
 
-import { use, useState } from "react"
+import { useState } from "react"
 import Link from "next/link"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
@@ -71,9 +71,8 @@ const products = {
   },
 }
 
-export default function ProductPage({ params }: { params: Promise<{ slug: string }> }) {
-  const resolvedParams = use(params)
-  const product = products[resolvedParams.slug as keyof typeof products]
+export default function ProductPage({ params }: { params: { slug: string } }) {
+  const product = products[params.slug as keyof typeof products]
 
   const [quantity, setQuantity] = useState(1)
   const [selectedImage, setSelectedImage] = useState(0)
@@ -186,10 +185,6 @@ export default function ProductPage({ params }: { params: Promise<{ slug: string
             <div>
               <p className="text-sm text-muted-foreground font-light mb-2">by {product.artist}</p>
               <h1 className="text-4xl font-light text-foreground mb-4 tracking-wide">{product.name}</h1>
-              <p className="text-3xl font-light text-foreground">
-                €{product.price.toFixed(2)}
-                <span className="text-lg text-muted-foreground ml-2">{product.currency}</span>
-              </p>
             </div>
 
             {/* Description */}

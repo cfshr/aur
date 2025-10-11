@@ -157,17 +157,14 @@ export default function HomePage() {
                   <div className="p-6">
                     <h3 className="text-foreground font-light mb-2 tracking-wide">{piece.name}</h3>
                     <p className="text-muted-foreground text-sm font-light mb-4">by {piece.artist}</p>
-                    <div className="flex items-center justify-between">
-                      <span className="text-lg font-light text-foreground">€125.00</span>
-                      <Button
-                        asChild
-                        size="sm"
-                        variant="ghost"
-                        className="text-foreground hover:bg-background font-light"
-                      >
-                        <Link href={`/product/${piece.slug}`}>View Details</Link>
-                      </Button>
-                    </div>
+                    <Button
+                      asChild
+                      size="sm"
+                      variant="ghost"
+                      className="text-foreground hover:bg-background font-light w-full"
+                    >
+                      <Link href={`/product/${piece.slug}`}>View Details</Link>
+                    </Button>
                   </div>
                 </CardContent>
               </Card>

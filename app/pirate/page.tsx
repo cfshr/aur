@@ -147,18 +147,21 @@ export default function PiratePage() {
                 artist: "The Geometric Crew",
                 defaultImage: "/images/cybohr-default.png",
                 hoverImage: "/images/cybohr-hover.png",
+                slug: "cybohr",
               },
               {
                 name: "Quantum Ring",
                 artist: "Tech Buccaneers",
                 defaultImage: "/images/ring-default.png",
                 hoverImage: "/images/ring-hover.png",
+                slug: "quantum-ring",
               },
               {
                 name: "Organic Flow",
                 artist: "Nature's Raiders",
                 defaultImage: "/images/pendant-default.png",
                 hoverImage: "/images/pendant-hover.png",
+                slug: "organic-flow",
               },
             ].map((piece, index) => (
               <Card key={index} className="bg-white border-gray-200 hover:shadow-lg transition-all duration-300 group">
@@ -183,8 +186,13 @@ export default function PiratePage() {
                   <div className="p-6">
                     <h3 className="text-gray-900 font-light mb-2 tracking-wide">{piece.name}</h3>
                     <p className="text-gray-600 text-sm font-light mb-4">by {piece.artist}</p>
-                    <Button size="sm" variant="ghost" className="text-gray-900 hover:bg-gray-50 font-light">
-                      View Treasure
+                    <Button
+                      asChild
+                      size="sm"
+                      variant="ghost"
+                      className="text-gray-900 hover:bg-gray-50 font-light w-full"
+                    >
+                      <Link href={`/product/${piece.slug}`}>View Treasure</Link>
                     </Button>
                   </div>
                 </CardContent>
