@@ -9,7 +9,8 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Checkbox } from "@/components/ui/checkbox"
-import { ArrowLeft, Circle, Users, Compass, Eye } from "lucide-react"
+import { ArrowLeft, Circle, Users, Compass, Eye, CheckCircle2, AlertCircle } from "lucide-react"
+import { createUserSignup } from "@/lib/supabase"
 
 export default function SignUpPage() {
   const [userType, setUserType] = useState("")
@@ -22,14 +23,17 @@ export default function SignUpPage() {
     interests: [] as string[],
     agreeToTerms: false,
   })
+  const [isSubmitting, setIsSubmitting] = useState(false)
+  const [submitStatus, setSubmitStatus] = useState<"idle" | "success" | "error">("idle")
+  const [errorMessage, setErrorMessage] = useState("")
 
   const interests = [
-    "Geometric Designs",
-    "Lunar Designs",
-    "Solar Designs",
-    "Organic Patterns",
-    "Tech Integration",
-    "Minimalist Aesthetics",
+    "Local Designers",
+    "Touch technology",
+    "Cyborg aesthetics",
+    "Exclusivity",
+    "Natural materials",
+    "Post-phone",
   ]
 
   const handleInterestChange = (interest: string, checked: boolean) => {
@@ -39,9 +43,51 @@ export default function SignUpPage() {
     }))
   }
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
-    console.log("Form submitted:", { ...formData, userType })
+    setIsSubmitting(true)
+    setSubmitStatus("idle")
+    setErrorMessage("")
+
+    try {
+      // Validate passwords match
+      if (formData.password !== formData.confirmPassword) {
+        throw new Error("Passwords do not match")
+      }
+
+      // Create user signup entry in Supabase
+      await createUserSignup({
+        user_type: userType as "enthusiast" | "artisan" | "collector",
+        first_name: formData.firstName,
+        last_name: formData.lastName,
+        email: formData.email,
+        design_interests: formData.interests,
+        agreed_to_terms: formData.agreeToTerms,
+      })
+
+      setSubmitStatus("success")
+
+      // Reset form after 2 seconds
+      setTimeout(() => {
+        setFormData({
+          firstName: "",
+          lastName: "",
+          email: "",
+          password: "",
+          confirmPassword: "",
+          interests: [],
+          agreeToTerms: false,
+        })
+        setUserType("")
+        setSubmitStatus("idle")
+      }, 3000)
+    } catch (error: any) {
+      console.error("Signup error:", error)
+      setSubmitStatus("error")
+      setErrorMessage(error.message || "Failed to create account. Please try again.")
+    } finally {
+      setIsSubmitting(false)
+    }
   }
 
   return (
@@ -76,6 +122,32 @@ export default function SignUpPage() {
               Connect with artisans and fellow enthusiasts to create unique, NFC-enabled jewelry pieces.
             </p>
           </div>
+
+          {/* Success Message */}
+          {submitStatus === "success" && (
+            <Card className="bg-green-50 border-green-200 mb-6">
+              <CardContent className="p-6 flex items-center gap-3">
+                <CheckCircle2 className="w-6 h-6 text-green-600" />
+                <div>
+                  <p className="text-green-900 font-light">Account created successfully!</p>
+                  <p className="text-green-700 text-sm font-light">Welcome to the AUR community.</p>
+                </div>
+              </CardContent>
+            </Card>
+          )}
+
+          {/* Error Message */}
+          {submitStatus === "error" && (
+            <Card className="bg-red-50 border-red-200 mb-6">
+              <CardContent className="p-6 flex items-center gap-3">
+                <AlertCircle className="w-6 h-6 text-red-600" />
+                <div>
+                  <p className="text-red-900 font-light">Error creating account</p>
+                  <p className="text-red-700 text-sm font-light">{errorMessage}</p>
+                </div>
+              </CardContent>
+            </Card>
+          )}
 
           {/* Sign Up Form */}
           <Card className="bg-white border-gray-200">
@@ -252,9 +324,9 @@ export default function SignUpPage() {
                 <Button
                   type="submit"
                   className="w-full bg-gray-900 hover:bg-gray-800 text-white font-light tracking-wide py-3"
-                  disabled={!userType || !formData.agreeToTerms}
+                  disabled={!userType || !formData.agreeToTerms || isSubmitting}
                 >
-                  Create Account
+                  {isSubmitting ? "Creating Account..." : "Create Account"}
                 </Button>
               </form>
             </CardContent>
